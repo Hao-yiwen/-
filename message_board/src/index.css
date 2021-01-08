@@ -76,7 +76,9 @@ body{
       border-bottom:1px solid #f1f1f1;
       margin-bottom: 10px;
       padding-bottom: 10px;
+      line-height: 50px;
       min-height: 50px;
+      justify-content: space-around;
   }
 
   .comment .comment-user{
@@ -86,15 +88,35 @@ body{
   .comment span{
       color:#00a3cf;
       font-style: italic;
-      margin-top: 14px;
+      /* margin-top: 14px; */
   }
 
   .comment p{
       margin: 0px;
       margin-left: 10px;
   }
-  .comment span::after{
+  .comment-user span::after{
       content: ':';
       margin-left: 5px;
       color: black;
   }
+  
+.comment-delete{
+    margin-top: 10px;
+    height: 25px;
+    width: 60px;
+    border: none;
+    line-height: 25px;
+    border-radius: 6px;
+    background-color: #ffa940;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+}
+
+.comment-delete:hover{
+    background-color: #ffd591;
+}
+code{
+    color:orange
+}

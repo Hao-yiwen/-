@@ -22,10 +22,36 @@ export default class CommentInput extends Component{
         })
     }
 
+    componentWillMount(){
+        this._loadUsername();
+    }
+
+    _loadUsername(){
+        const username=localStorage.getItem('username');
+        if(username){
+            this.setState({username})
+        }
+    }
+
+    _saveUsername(username){
+        localStorage.setItem('username',username)
+    }
+
+    handleUsernameBlur(event){
+        this._saveUsername(event.target.value);
+    }
+
+    componentDidMount(){
+        this.textarea.focus()
+    }
+
     handleSubmit(){
         if(this.props.onSubmit){
-            const {username,content}=this.state;
-            this.props.onSubmit({username,content})
+            this.props.onSubmit({
+                username:this.state.username,
+                content:this.state.content,
+                createdTime:+new Date()
+            })
         }
         this.setState({content:''})
     }
@@ -36,13 +62,13 @@ export default class CommentInput extends Component{
                 <div className="comment-field">
                     <span className="comment-field-name">用户名：</span>
                     <div className="comment-field-input">
-                        <input value={this.state.username} onChange={this.handleUserNameChange.bind(this,2)}></input>
+                        <input onBlur={this.handleUsernameBlur.bind(this)} value={this.state.username} onChange={this.handleUserNameChange.bind(this,2)}></input>
                     </div>
                 </div>
                 <div className="comment-field">
                     <span className="comment-field-name">评论内容：</span>
                     <div className="comment-field-input">
-                        <textarea value={this.state.content} onChange={this.handleContentChange.bind(this)}></textarea>
+                        <textarea value={this.state.content} onChange={this.handleContentChange.bind(this)} ref={(textarea)=>this.textarea=textarea}></textarea>
                     </div>
                 </div>
                 <div className="comment-field-button">
