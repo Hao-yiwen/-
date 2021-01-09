@@ -1,48 +1,45 @@
 import React,{Component} from 'react'
+import PropTypes from 'prop-types'
 
-export default class CommentInput extends Component{
-    constructor(){
-        super();
+export default class ComponentTnput extends Component{
+    static propTypes={
+        username:PropTypes.any,
+        onSubmit:PropTypes.func,
+        onUserNameInputBlur:PropTypes.func
+    }
+
+    static defaultProps={
+        username:''
+    }
+
+    constructor(props){
+        super(props);
         this.state={
-            username:'',
+            username:props.username,
             content:''
         }
     }
 
-    handleUserNameChange(s,e){
-        this.setState({
-            username:e.target.value
-        })
-        console.log(s);
-    }
-
-    handleContentChange(e){
-        this.setState({
-            content:e.target.value
-        })
-    }
-
-    componentWillMount(){
-        this._loadUsername();
-    }
-
-    _loadUsername(){
-        const username=localStorage.getItem('username');
-        if(username){
-            this.setState({username})
-        }
-    }
-
-    _saveUsername(username){
-        localStorage.setItem('username',username)
+    componentDidMount(){
+        this.textarea.focus();
     }
 
     handleUsernameBlur(event){
-        this._saveUsername(event.target.value);
+        if(this.props.onUserNameInputBlur){
+            this.props.onUserNameInputBlur(event.target.value)
+        }
     }
 
-    componentDidMount(){
-        this.textarea.focus()
+    handleUsernameChange(event){
+        this.setState({
+            username:event.target.value
+        })
+    }
+
+    handleContentChange(event){
+        this.setState({
+            content:event.target.value
+        })
     }
 
     handleSubmit(){
@@ -53,6 +50,7 @@ export default class CommentInput extends Component{
                 createdTime:+new Date()
             })
         }
+
         this.setState({content:''})
     }
 
@@ -62,7 +60,7 @@ export default class CommentInput extends Component{
                 <div className="comment-field">
                     <span className="comment-field-name">用户名：</span>
                     <div className="comment-field-input">
-                        <input onBlur={this.handleUsernameBlur.bind(this)} value={this.state.username} onChange={this.handleUserNameChange.bind(this,2)}></input>
+                        <input onBlur={this.handleUsernameBlur.bind(this)} value={this.state.username} onChange={this.handleUsernameChange.bind(this)}></input>
                     </div>
                 </div>
                 <div className="comment-field">
